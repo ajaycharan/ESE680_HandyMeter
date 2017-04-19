@@ -6,6 +6,16 @@ src\ASF\common2\components\memory\sd_mmc\sd_mmc.c
 
 src\ASF\common2\components\memory\sd_mmc\sd_mmc_mem.c
 
+src\ASF\sam0\drivers\rtc\rtc_sam_d_r_h\rtc_calendar.c
+
+src\ASF\sam0\drivers\rtc\rtc_sam_d_r_h\rtc_calendar_interrupt.c
+
+src\ASF\thirdparty\fatfs\fatfs-port-r0.09\diskio.c
+
+src\ASF\thirdparty\fatfs\fatfs-port-r0.09\sam0\fattime_rtc.c
+
+src\ASF\thirdparty\fatfs\fatfs-r0.09\src\ff.c
+
 src\bootloader.c
 
 src\ASF\common\services\usb\class\cdc\device\udi_cdc.c
@@ -17,10 +27,6 @@ src\ASF\common\services\usb\udc\udc.c
 src\ASF\common\utils\stdio\stdio_usb\stdio_usb.c
 
 src\ASF\sam0\drivers\extint\extint_sam_d_r_h\extint.c
-
-src\ASF\sam0\drivers\rtc\rtc_sam_d_r_h\rtc_calendar.c
-
-src\ASF\sam0\drivers\rtc\rtc_sam_d_r_h\rtc_calendar_interrupt.c
 
 src\ASF\sam0\drivers\sercom\sercom.c
 
@@ -75,8 +81,4 @@ src\ASF\sam0\utils\stdio\read.c
 src\ASF\sam0\utils\stdio\write.c
 
 src\ASF\sam0\utils\syscalls\gcc\syscalls.c
-
-src\ASF\thirdparty\fatfs\fatfs-port-r0.09\diskio.c
-
-src\ASF\thirdparty\fatfs\fatfs-r0.09\src\ff.c
 

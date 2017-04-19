@@ -112,7 +112,9 @@ src/ASF/common/services/storage/ctrl_access/ctrl_access.d \
  ../src/ASF/common/services/storage/ctrl_access/ctrl_access.h \
  ../src/config/conf_access.h ../src/ASF/common/boards/board.h \
  ../src/ASF/common2/boards/user_board/user_board.h \
- ../src/config/conf_board.h
+ ../src/config/conf_board.h \
+ ../src/ASF/common2/components/memory/sd_mmc/sd_mmc_mem.h \
+ ../src/ASF/common/services/storage/ctrl_access/ctrl_access.h
 
 ../src/ASF/sam0/utils/compiler.h:
 
@@ -341,3 +343,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/ASF/common2/boards/user_board/user_board.h:
 
 ../src/config/conf_board.h:
+
+../src/ASF/common2/components/memory/sd_mmc/sd_mmc_mem.h:
+
+../src/ASF/common/services/storage/ctrl_access/ctrl_access.h:

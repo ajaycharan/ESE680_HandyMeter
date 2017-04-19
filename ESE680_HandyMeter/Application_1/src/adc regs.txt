@@ -1,0 +1,10 @@
+// Quick basic config ADC settings (Address, value)
+procedure: power on sub-system, wait for 5ms, UNLOCK (send 0x0655, wait for 0x0655 receive), configure (as below)
+0x0b, 0xE8  - VNCP enabled, VREF internal enabled at 2.442v, High-res mode
+0x0d, 0x02  - ICLK = CLKIN/2
+0x0e, 0x22  - FMOD = ICLK/2 (FMOD=4.096Mhz), sample rate=4kHz
+0x11, 0x01  - channel 1 gain of 2
+0x12, 0x01  - channel 1 gain of 2
+0x0f, 0x0F  - power on the ADC channels
+procedure: WAKEUP (send 0x0033), read channel data
+

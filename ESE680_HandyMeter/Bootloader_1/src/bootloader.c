@@ -91,12 +91,16 @@ void SYSCTRL_Handler(void) {
 int main(void)
 {
 	delay_init();
-	led_blink(1,100,1);				// Blink once to indicate entry
+	led_blink(1,100,1);				// Blink green once to indicate entry
 
 	bool gotoApplication = 1;		// Can we skip to the application?
 	bool sdError = 0;				// Any error in SD card process?
 
-	// Check buttons, if both pressed, force bootloader execution
+	const char* new_image_name		= IMAGE_DEFAULT_NAME;
+	const char* golden_image_name	= IMAGE_GOLDEN_NAME;
+	char* image_name = new_image_name;
+
+	// Check buttons, if both pressed, force bootloader execution with the golden-image
 	struct port_config but_cfg;
 	port_get_config_defaults(&but_cfg);
 	port_pin_set_config(BUT1_IRQ_IN_PIN, &but_cfg);
@@ -105,6 +109,7 @@ int main(void)
 	bool b2 = !port_pin_get_input_level(BUT2_IRQ_IN_PIN);
 	if (b1 && b2) {
 		gotoApplication = 0;
+		image_name = golden_image_name;		// Make the golden image the target
 	}
 	
 	// Check SD card for new boot file, force bootloader execution if found
@@ -123,7 +128,6 @@ int main(void)
 	// Check for new firmware image on SD
 	FATFS fs;
 	FIL file_object;
-	const char* image_name = IMAGE_DEFAULT_NAME;
 	FRESULT res;
 	FILINFO fno;
 	memset(&fs, 0, sizeof(FATFS));	
@@ -133,7 +137,7 @@ int main(void)
 	
 		// Find the image file
 		res = f_stat(image_name, &fno);
-		if (res == FR_OK) {				// File exists
+		if (res == FR_OK) {
 			gotoApplication = 0;
 			sdError = 0;
 		} else sdError = 1;
@@ -152,6 +156,8 @@ int main(void)
 	if (gotoApplication) {
 		start_application();
 	}
+	led_blink(2,100,0);					// Blink red once to bootloader activated
+
 
 	// START BOOTLOADER MAIN PROGRAM
 	system_init();						// clocks and I/O pins
@@ -184,15 +190,16 @@ int main(void)
 	rtc_calendar_get_time(&rtc_instance, &time);
 	debug_print("Local Time: %d/%d/%d  %d:%d:%d\n", time.month, time.day, time.year, time.hour, time.minute, time.second);
 	debug_print("New image file: %s\n", sdError?"NOT FOUND":"FOUND");
+	
 	if (sdError) {
 		debug_print("Nothing to do. Going to sleep.\n");
 		led_blink(1,100,0);		// Blink once to indicate nothing to do
 		delay_ms(100);
-		system_sleep();
-		system_reset();
+		system_sleep();			// Sleep
+		system_reset();			// Restart on wake from sleep
 	}
 
-	// Init the SD card driver (spi port)
+	// Init the SD card driver (spi port) on new clock
 	sd_mmc_init();
 
 	// Open the image file
@@ -244,7 +251,7 @@ static void start_application(void) {
 	}
 
 	// Jump to application
-	led_blink(2,200,1);				// Good blink
+	led_blink(2,100,1);				// Blink green twice to indicate jumping to application
 
 	// Get the reset vector address
 	application_code_entry  = *(uint32_t*)(APP_START_ADDRESS + 4);
@@ -296,7 +303,8 @@ static void led_blink(int num_blinks, int blink_period_ms, bool green) {
 	bool state = 0;
 	struct port_config cfg;
 	port_get_config_defaults(&cfg);
-	while(num_blinks*2 > 0) {
+	num_blinks = num_blinks * 2;
+	while(num_blinks > 0) {
 		state = !state;
 		if (state) {
 			cfg.direction = PORT_PIN_DIR_OUTPUT;

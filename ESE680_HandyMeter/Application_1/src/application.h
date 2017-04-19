@@ -6,15 +6,15 @@ extern "C" {
 	#endif
 
 	/** Wi-Fi AP Settings. */
-	#define MAIN_WLAN_SSID                       "hp-setup-1"			/**< Destination SSID */
+	#define MAIN_WLAN_SSID                       "Pspot"			/**< Destination SSID */
 	#define MAIN_WLAN_AUTH                       M2M_WIFI_SEC_WPA_PSK	/**< Security manner */
-	#define MAIN_WLAN_PSK                        "WelcomeHal"			/**< Password for Destination SSID */
+	#define MAIN_WLAN_PSK                        "qoopqoop"			/**< Password for Destination SSID */
 
 	/** IP address parsing. */
 	#define IPV4_BYTE(val, index)                ((val >> (index * 8)) & 0xFF)
 
 	/** Content URI for download. */
-	#define MAIN_HTTP_FILE_URL                   "http://www.seas.upenn.edu/~parpatel/sd_image.bin"
+	#define MAIN_HTTP_FILE_URL                   "http://www.seas.upenn.edu/~parpatel/SD_IMAGE.BIN"
 
 	/** Maximum size for packet buffer. */
 	#define MAIN_BUFFER_MAX_SIZE                 (1024)

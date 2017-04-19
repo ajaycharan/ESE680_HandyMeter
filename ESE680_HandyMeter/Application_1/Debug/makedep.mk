@@ -2,6 +2,18 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\ASF\common2\components\memory\sd_mmc\sd_mmc_mem.c
+
+src\ASF\sam0\drivers\tcc\tcc.c
+
+src\ASF\sam0\drivers\tcc\tcc_callback.c
+
+src\iot\http\http_client.c
+
+src\iot\stream_writer.c
+
+src\iot\sw_timer.c
+
 src\application.c
 
 src\ASF\common2\boards\user_board\init.c

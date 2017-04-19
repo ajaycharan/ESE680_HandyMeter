@@ -17,15 +17,15 @@
     <RootNamespace>Application_1</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
-    <OverrideVtor>false</OverrideVtor>
+    <OverrideVtor>true</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
     <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <OverrideVtorValue>&amp;exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
-    <eraseonlaunchrule>4</eraseonlaunchrule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
       <framework-data>
   <options>
@@ -449,209 +449,43 @@
   <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
   <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
   <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
-  <armgcc.compiler.symbols.DefSymbols>
-    <ListValues>
-      <Value>BOARD=USER_BOARD</Value>
-      <Value>ARM_MATH_CM0PLUS=true</Value>
-      <Value>SYSTICK_MODE</Value>
-      <Value>USB_DEVICE_LPM_SUPPORT</Value>
-      <Value>UDD_ENABLE</Value>
-      <Value>EXTINT_CALLBACK_MODE=true</Value>
-      <Value>RTC_CALENDAR_ASYNC=true</Value>
-      <Value>SPI_CALLBACK_MODE=true</Value>
-      <Value>STACK_SIZE=0x4000</Value>
-      <Value>SD_MMC_ENABLE</Value>
-      <Value>ACCESS_MEM_TO_RAM_ENABLE</Value>
-      <Value>NDEBUG</Value>
-      <Value>TCC_ASYNC=true</Value>
-    </ListValues>
-  </armgcc.compiler.symbols.DefSymbols>
-  <armgcc.compiler.directories.IncludePaths>
-    <ListValues>
-      <Value>../src/ASF/common/boards</Value>
-      <Value>../src/ASF/sam0/utils</Value>
-      <Value>../src/ASF/sam0/utils/header_files</Value>
-      <Value>../src/ASF/sam0/utils/preprocessor</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Include</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-      <Value>../src/ASF/common/utils</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value>
-      <Value>../src/ASF/sam0/drivers/system</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value>
-      <Value>../src/ASF/sam0/drivers/system/pinmux</Value>
-      <Value>../src/ASF/sam0/drivers/system/power</Value>
-      <Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value>
-      <Value>../src/ASF/common2/boards/user_board</Value>
-      <Value>../src</Value>
-      <Value>../src/config</Value>
-      <Value>../src/ASF/sam0/drivers/port</Value>
-      <Value>../src/ASF/common2/services/delay</Value>
-      <Value>../src/ASF/common2/services/delay/sam0</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value>
-      <Value>../src/ASF/common/components/wifi/winc1500</Value>
-      <Value>../src/ASF/common/services/sleepmgr</Value>
-      <Value>../src/ASF/common/services/usb</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc/device</Value>
-      <Value>../src/ASF/common/services/usb/udc</Value>
-      <Value>../src/ASF/common/utils/stdio/stdio_usb</Value>
-      <Value>../src/ASF/common2/components/memory/sd_mmc</Value>
-      <Value>../src/ASF/sam0/drivers/bod</Value>
-      <Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/dma</Value>
-      <Value>../src/ASF/sam0/drivers/extint</Value>
-      <Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/rtc</Value>
-      <Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/sercom</Value>
-      <Value>../src/ASF/sam0/drivers/sercom/spi</Value>
-      <Value>../src/ASF/sam0/drivers/usb</Value>
-      <Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value>
-      <Value>../src/ASF/sam0/drivers/usb/stack_interface</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value>
-      <Value>../src/ASF/sam0/drivers/tcc</Value>
-    </ListValues>
-  </armgcc.compiler.directories.IncludePaths>
-  <armgcc.compiler.optimization.level>Optimize more (-O2)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.symbols.DefSymbols><ListValues>
+  <Value>BOARD=USER_BOARD</Value>
+  <Value>ARM_MATH_CM0PLUS=true</Value>
+  <Value>SYSTICK_MODE</Value>
+  <Value>USB_DEVICE_LPM_SUPPORT</Value>
+  <Value>UDD_ENABLE</Value>
+  <Value>EXTINT_CALLBACK_MODE=true</Value>
+  <Value>RTC_CALENDAR_ASYNC=true</Value>
+  <Value>SPI_CALLBACK_MODE=true</Value>
+  <Value>STACK_SIZE=0x4000</Value>
+  <Value>SD_MMC_ENABLE</Value>
+  <Value>TCC_ASYNC=true</Value>
+  <Value>ACCESS_MEM_TO_RAM_ENABLED</Value>
+  <Value>NDEBUG</Value>
+</ListValues></armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths><ListValues><Value>../src/ASF/common/boards</Value><Value>../src/ASF/sam0/utils</Value><Value>../src/ASF/sam0/utils/header_files</Value><Value>../src/ASF/sam0/utils/preprocessor</Value><Value>../src/ASF/thirdparty/CMSIS/Include</Value><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value><Value>../src/ASF/common/utils</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value><Value>../src/ASF/sam0/drivers/system</Value><Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value><Value>../src/ASF/sam0/drivers/system/clock</Value><Value>../src/ASF/sam0/drivers/system/interrupt</Value><Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value><Value>../src/ASF/sam0/drivers/system/pinmux</Value><Value>../src/ASF/sam0/drivers/system/power</Value><Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/system/reset</Value><Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value><Value>../src/ASF/common2/boards/user_board</Value><Value>../src</Value><Value>../src/config</Value><Value>../src/ASF/sam0/drivers/port</Value><Value>../src/ASF/common2/services/delay</Value><Value>../src/ASF/common2/services/delay/sam0</Value><Value>../src/ASF/common/services/storage/ctrl_access</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value><Value>../src/ASF/common/components/wifi/winc1500</Value><Value>../src/ASF/common/services/sleepmgr</Value><Value>../src/ASF/common/services/usb</Value><Value>../src/ASF/common/services/usb/class/cdc</Value><Value>../src/ASF/common/services/usb/class/cdc/device</Value><Value>../src/ASF/common/services/usb/udc</Value><Value>../src/ASF/common/utils/stdio/stdio_usb</Value><Value>../src/ASF/common2/components/memory/sd_mmc</Value><Value>../src/ASF/sam0/drivers/bod</Value><Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/dma</Value><Value>../src/ASF/sam0/drivers/extint</Value><Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/rtc</Value><Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/sercom</Value><Value>../src/ASF/sam0/drivers/sercom/spi</Value><Value>../src/ASF/sam0/drivers/usb</Value><Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value><Value>../src/ASF/sam0/drivers/usb/stack_interface</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value><Value>../src/ASF/sam0/drivers/tcc</Value></ListValues></armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.OtherFlags>-fdata-sections</armgcc.compiler.optimization.OtherFlags>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
   <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
   <armgcc.compiler.miscellaneous.OtherFlags>-pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500</armgcc.compiler.miscellaneous.OtherFlags>
   <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
-  <armgcc.linker.libraries.Libraries>
-    <ListValues>
-      <Value>libarm_cortexM0l_math</Value>
-      <Value>libm</Value>
-    </ListValues>
-  </armgcc.linker.libraries.Libraries>
-  <armgcc.linker.libraries.LibrarySearchPaths>
-    <ListValues>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-    </ListValues>
-  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.libraries.Libraries><ListValues><Value>libarm_cortexM0l_math</Value><Value>libm</Value></ListValues></armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths><ListValues><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value></ListValues></armgcc.linker.libraries.LibrarySearchPaths>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
   <armgcc.linker.optimization.EnableUnsafeMatchOptimizations>True</armgcc.linker.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.linker.optimization.EnableFastMath>True</armgcc.linker.optimization.EnableFastMath>
   <armgcc.linker.memorysettings.ExternalRAM>False</armgcc.linker.memorysettings.ExternalRAM>
-  <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samd21/gcc/samd21g18a_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
-  <armgcc.assembler.general.IncludePaths>
-    <ListValues>
-      <Value>../src/ASF/common/boards</Value>
-      <Value>../src/ASF/sam0/utils</Value>
-      <Value>../src/ASF/sam0/utils/header_files</Value>
-      <Value>../src/ASF/sam0/utils/preprocessor</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Include</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-      <Value>../src/ASF/common/utils</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value>
-      <Value>../src/ASF/sam0/drivers/system</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value>
-      <Value>../src/ASF/sam0/drivers/system/pinmux</Value>
-      <Value>../src/ASF/sam0/drivers/system/power</Value>
-      <Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value>
-      <Value>../src/ASF/common2/boards/user_board</Value>
-      <Value>../src</Value>
-      <Value>../src/config</Value>
-      <Value>../src/ASF/sam0/drivers/port</Value>
-      <Value>../src/ASF/common2/services/delay</Value>
-      <Value>../src/ASF/common2/services/delay/sam0</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value>
-      <Value>../src/ASF/common/components/wifi/winc1500</Value>
-      <Value>../src/ASF/common/services/sleepmgr</Value>
-      <Value>../src/ASF/common/services/usb</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc/device</Value>
-      <Value>../src/ASF/common/services/usb/udc</Value>
-      <Value>../src/ASF/common/utils/stdio/stdio_usb</Value>
-      <Value>../src/ASF/common2/components/memory/sd_mmc</Value>
-      <Value>../src/ASF/sam0/drivers/bod</Value>
-      <Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/dma</Value>
-      <Value>../src/ASF/sam0/drivers/extint</Value>
-      <Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/rtc</Value>
-      <Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/sercom</Value>
-      <Value>../src/ASF/sam0/drivers/sercom/spi</Value>
-      <Value>../src/ASF/sam0/drivers/usb</Value>
-      <Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value>
-      <Value>../src/ASF/sam0/drivers/usb/stack_interface</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value>
-      <Value>../src/ASF/sam0/drivers/tcc</Value>
-    </ListValues>
-  </armgcc.assembler.general.IncludePaths>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samd21/gcc/samd21g18a_flash.ld -Wl,--Ttext=0x8000</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths><ListValues><Value>../src/ASF/common/boards</Value><Value>../src/ASF/sam0/utils</Value><Value>../src/ASF/sam0/utils/header_files</Value><Value>../src/ASF/sam0/utils/preprocessor</Value><Value>../src/ASF/thirdparty/CMSIS/Include</Value><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value><Value>../src/ASF/common/utils</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value><Value>../src/ASF/sam0/drivers/system</Value><Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value><Value>../src/ASF/sam0/drivers/system/clock</Value><Value>../src/ASF/sam0/drivers/system/interrupt</Value><Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value><Value>../src/ASF/sam0/drivers/system/pinmux</Value><Value>../src/ASF/sam0/drivers/system/power</Value><Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/system/reset</Value><Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value><Value>../src/ASF/common2/boards/user_board</Value><Value>../src</Value><Value>../src/config</Value><Value>../src/ASF/sam0/drivers/port</Value><Value>../src/ASF/common2/services/delay</Value><Value>../src/ASF/common2/services/delay/sam0</Value><Value>../src/ASF/common/services/storage/ctrl_access</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value><Value>../src/ASF/common/components/wifi/winc1500</Value><Value>../src/ASF/common/services/sleepmgr</Value><Value>../src/ASF/common/services/usb</Value><Value>../src/ASF/common/services/usb/class/cdc</Value><Value>../src/ASF/common/services/usb/class/cdc/device</Value><Value>../src/ASF/common/services/usb/udc</Value><Value>../src/ASF/common/utils/stdio/stdio_usb</Value><Value>../src/ASF/common2/components/memory/sd_mmc</Value><Value>../src/ASF/sam0/drivers/bod</Value><Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/dma</Value><Value>../src/ASF/sam0/drivers/extint</Value><Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/rtc</Value><Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/sercom</Value><Value>../src/ASF/sam0/drivers/sercom/spi</Value><Value>../src/ASF/sam0/drivers/usb</Value><Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value><Value>../src/ASF/sam0/drivers/usb/stack_interface</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value><Value>../src/ASF/sam0/drivers/tcc</Value></ListValues></armgcc.assembler.general.IncludePaths>
   <armgcc.preprocessingassembler.general.AssemblerFlags>-DARM_MATH_CM0PLUS=true -DBOARD=USER_BOARD -DSYSTICK_MODE -DUSB_DEVICE_LPM_SUPPORT -DUDD_ENABLE -DEXTINT_CALLBACK_MODE=true -DRTC_CALENDAR_ASYNC=true -DSPI_CALLBACK_MODE=true -DSD_MMC_ENABLE -DTCC_ASYNC=true</armgcc.preprocessingassembler.general.AssemblerFlags>
-  <armgcc.preprocessingassembler.general.IncludePaths>
-    <ListValues>
-      <Value>../src/ASF/common/boards</Value>
-      <Value>../src/ASF/sam0/utils</Value>
-      <Value>../src/ASF/sam0/utils/header_files</Value>
-      <Value>../src/ASF/sam0/utils/preprocessor</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Include</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-      <Value>../src/ASF/common/utils</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value>
-      <Value>../src/ASF/sam0/drivers/system</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value>
-      <Value>../src/ASF/sam0/drivers/system/pinmux</Value>
-      <Value>../src/ASF/sam0/drivers/system/power</Value>
-      <Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value>
-      <Value>../src/ASF/common2/boards/user_board</Value>
-      <Value>../src</Value>
-      <Value>../src/config</Value>
-      <Value>../src/ASF/sam0/drivers/port</Value>
-      <Value>../src/ASF/common2/services/delay</Value>
-      <Value>../src/ASF/common2/services/delay/sam0</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value>
-      <Value>../src/ASF/common/components/wifi/winc1500</Value>
-      <Value>../src/ASF/common/services/sleepmgr</Value>
-      <Value>../src/ASF/common/services/usb</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc/device</Value>
-      <Value>../src/ASF/common/services/usb/udc</Value>
-      <Value>../src/ASF/common/utils/stdio/stdio_usb</Value>
-      <Value>../src/ASF/common2/components/memory/sd_mmc</Value>
-      <Value>../src/ASF/sam0/drivers/bod</Value>
-      <Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/dma</Value>
-      <Value>../src/ASF/sam0/drivers/extint</Value>
-      <Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/rtc</Value>
-      <Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/sercom</Value>
-      <Value>../src/ASF/sam0/drivers/sercom/spi</Value>
-      <Value>../src/ASF/sam0/drivers/usb</Value>
-      <Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value>
-      <Value>../src/ASF/sam0/drivers/usb/stack_interface</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value>
-      <Value>../src/ASF/sam0/drivers/tcc</Value>
-    </ListValues>
-  </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths><ListValues><Value>../src/ASF/common/boards</Value><Value>../src/ASF/sam0/utils</Value><Value>../src/ASF/sam0/utils/header_files</Value><Value>../src/ASF/sam0/utils/preprocessor</Value><Value>../src/ASF/thirdparty/CMSIS/Include</Value><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value><Value>../src/ASF/common/utils</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value><Value>../src/ASF/sam0/drivers/system</Value><Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value><Value>../src/ASF/sam0/drivers/system/clock</Value><Value>../src/ASF/sam0/drivers/system/interrupt</Value><Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value><Value>../src/ASF/sam0/drivers/system/pinmux</Value><Value>../src/ASF/sam0/drivers/system/power</Value><Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/system/reset</Value><Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value><Value>../src/ASF/common2/boards/user_board</Value><Value>../src</Value><Value>../src/config</Value><Value>../src/ASF/sam0/drivers/port</Value><Value>../src/ASF/common2/services/delay</Value><Value>../src/ASF/common2/services/delay/sam0</Value><Value>../src/ASF/common/services/storage/ctrl_access</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value><Value>../src/ASF/common/components/wifi/winc1500</Value><Value>../src/ASF/common/services/sleepmgr</Value><Value>../src/ASF/common/services/usb</Value><Value>../src/ASF/common/services/usb/class/cdc</Value><Value>../src/ASF/common/services/usb/class/cdc/device</Value><Value>../src/ASF/common/services/usb/udc</Value><Value>../src/ASF/common/utils/stdio/stdio_usb</Value><Value>../src/ASF/common2/components/memory/sd_mmc</Value><Value>../src/ASF/sam0/drivers/bod</Value><Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/dma</Value><Value>../src/ASF/sam0/drivers/extint</Value><Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/rtc</Value><Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/sercom</Value><Value>../src/ASF/sam0/drivers/sercom/spi</Value><Value>../src/ASF/sam0/drivers/usb</Value><Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value><Value>../src/ASF/sam0/drivers/usb/stack_interface</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value><Value>../src/ASF/sam0/drivers/tcc</Value></ListValues></armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.compiler.optimization.GeneratePositionIndependentCode>False</armgcc.compiler.optimization.GeneratePositionIndependentCode>
+  <armgcc.compiler.optimization.level>Optimize more (-O2)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
 </ArmGcc>
     </ToolchainSettings>
   </PropertyGroup>
@@ -663,212 +497,45 @@
   <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
   <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
   <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
-  <armgcc.compiler.symbols.DefSymbols>
-    <ListValues>
-      <Value>BOARD=USER_BOARD</Value>
-      <Value>ARM_MATH_CM0PLUS=true</Value>
-      <Value>SYSTICK_MODE</Value>
-      <Value>USB_DEVICE_LPM_SUPPORT</Value>
-      <Value>UDD_ENABLE</Value>
-      <Value>EXTINT_CALLBACK_MODE=true</Value>
-      <Value>RTC_CALENDAR_ASYNC=true</Value>
-      <Value>SPI_CALLBACK_MODE=true</Value>
-      <Value>STACK_SIZE=0x4000</Value>
-      <Value>SD_MMC_ENABLE</Value>
-      <Value>ACCESS_MEM_TO_RAM_ENABLE</Value>
-      <Value>DEBUG</Value>
-      <Value>TCC_ASYNC=true</Value>
-    </ListValues>
-  </armgcc.compiler.symbols.DefSymbols>
-  <armgcc.compiler.directories.IncludePaths>
-    <ListValues>
-      <Value>../src/ASF/common/boards</Value>
-      <Value>../src/ASF/sam0/utils</Value>
-      <Value>../src/ASF/sam0/utils/header_files</Value>
-      <Value>../src/ASF/sam0/utils/preprocessor</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Include</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-      <Value>../src/ASF/common/utils</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value>
-      <Value>../src/ASF/sam0/drivers/system</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value>
-      <Value>../src/ASF/sam0/drivers/system/pinmux</Value>
-      <Value>../src/ASF/sam0/drivers/system/power</Value>
-      <Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value>
-      <Value>../src/ASF/common2/boards/user_board</Value>
-      <Value>../src</Value>
-      <Value>../src/config</Value>
-      <Value>../src/ASF/sam0/drivers/port</Value>
-      <Value>../src/ASF/common2/services/delay</Value>
-      <Value>../src/ASF/common2/services/delay/sam0</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value>
-      <Value>../src/ASF/common/components/wifi/winc1500</Value>
-      <Value>../src/ASF/common/services/sleepmgr</Value>
-      <Value>../src/ASF/common/services/usb</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc/device</Value>
-      <Value>../src/ASF/common/services/usb/udc</Value>
-      <Value>../src/ASF/common/utils/stdio/stdio_usb</Value>
-      <Value>../src/ASF/common2/components/memory/sd_mmc</Value>
-      <Value>../src/ASF/sam0/drivers/bod</Value>
-      <Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/dma</Value>
-      <Value>../src/ASF/sam0/drivers/extint</Value>
-      <Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/rtc</Value>
-      <Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/sercom</Value>
-      <Value>../src/ASF/sam0/drivers/sercom/spi</Value>
-      <Value>../src/ASF/sam0/drivers/usb</Value>
-      <Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value>
-      <Value>../src/ASF/sam0/drivers/usb/stack_interface</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value>
-      <Value>../src/ASF/sam0/drivers/tcc</Value>
-    </ListValues>
-  </armgcc.compiler.directories.IncludePaths>
-  <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.symbols.DefSymbols><ListValues>
+  <Value>BOARD=USER_BOARD</Value>
+  <Value>ARM_MATH_CM0PLUS=true</Value>
+  <Value>SYSTICK_MODE</Value>
+  <Value>USB_DEVICE_LPM_SUPPORT</Value>
+  <Value>UDD_ENABLE</Value>
+  <Value>EXTINT_CALLBACK_MODE=true</Value>
+  <Value>RTC_CALENDAR_ASYNC=true</Value>
+  <Value>SPI_CALLBACK_MODE=true</Value>
+  <Value>STACK_SIZE=0x4000</Value>
+  <Value>SD_MMC_ENABLE</Value>
+  <Value>TCC_ASYNC=true</Value>
+  <Value>ACCESS_MEM_TO_RAM_ENABLED</Value>
+  <Value>DEBUG</Value>
+</ListValues></armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths><ListValues><Value>../src/ASF/common/boards</Value><Value>../src/ASF/sam0/utils</Value><Value>../src/ASF/sam0/utils/header_files</Value><Value>../src/ASF/sam0/utils/preprocessor</Value><Value>../src/ASF/thirdparty/CMSIS/Include</Value><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value><Value>../src/ASF/common/utils</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value><Value>../src/ASF/sam0/drivers/system</Value><Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value><Value>../src/ASF/sam0/drivers/system/clock</Value><Value>../src/ASF/sam0/drivers/system/interrupt</Value><Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value><Value>../src/ASF/sam0/drivers/system/pinmux</Value><Value>../src/ASF/sam0/drivers/system/power</Value><Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/system/reset</Value><Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value><Value>../src/ASF/common2/boards/user_board</Value><Value>../src</Value><Value>../src/config</Value><Value>../src/ASF/sam0/drivers/port</Value><Value>../src/ASF/common2/services/delay</Value><Value>../src/ASF/common2/services/delay/sam0</Value><Value>../src/ASF/common/services/storage/ctrl_access</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value><Value>../src/ASF/common/components/wifi/winc1500</Value><Value>../src/ASF/common/services/sleepmgr</Value><Value>../src/ASF/common/services/usb</Value><Value>../src/ASF/common/services/usb/class/cdc</Value><Value>../src/ASF/common/services/usb/class/cdc/device</Value><Value>../src/ASF/common/services/usb/udc</Value><Value>../src/ASF/common/utils/stdio/stdio_usb</Value><Value>../src/ASF/common2/components/memory/sd_mmc</Value><Value>../src/ASF/sam0/drivers/bod</Value><Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/dma</Value><Value>../src/ASF/sam0/drivers/extint</Value><Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/rtc</Value><Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/sercom</Value><Value>../src/ASF/sam0/drivers/sercom/spi</Value><Value>../src/ASF/sam0/drivers/usb</Value><Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value><Value>../src/ASF/sam0/drivers/usb/stack_interface</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value><Value>../src/ASF/sam0/drivers/tcc</Value></ListValues></armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.OtherFlags>-fdata-sections</armgcc.compiler.optimization.OtherFlags>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
   <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
-  <armgcc.compiler.optimization.GeneratePositionIndependentCode>True</armgcc.compiler.optimization.GeneratePositionIndependentCode>
-  <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
   <armgcc.compiler.miscellaneous.OtherFlags>-pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500</armgcc.compiler.miscellaneous.OtherFlags>
   <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
-  <armgcc.linker.libraries.Libraries>
-    <ListValues>
-      <Value>libarm_cortexM0l_math</Value>
-      <Value>libm</Value>
-    </ListValues>
-  </armgcc.linker.libraries.Libraries>
-  <armgcc.linker.libraries.LibrarySearchPaths>
-    <ListValues>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-    </ListValues>
-  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.libraries.Libraries><ListValues><Value>libarm_cortexM0l_math</Value><Value>libm</Value></ListValues></armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths><ListValues><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value></ListValues></armgcc.linker.libraries.LibrarySearchPaths>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
   <armgcc.linker.optimization.EnableUnsafeMatchOptimizations>True</armgcc.linker.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.linker.optimization.EnableFastMath>True</armgcc.linker.optimization.EnableFastMath>
-  <armgcc.linker.optimization.GeneratePositionIndependentCode>True</armgcc.linker.optimization.GeneratePositionIndependentCode>
   <armgcc.linker.memorysettings.ExternalRAM>False</armgcc.linker.memorysettings.ExternalRAM>
-  <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samd21/gcc/samd21g18a_flash.ld -Wl,--section-start=.text=0x8000</armgcc.linker.miscellaneous.LinkerFlags>
-  <armgcc.assembler.general.IncludePaths>
-    <ListValues>
-      <Value>../src/ASF/common/boards</Value>
-      <Value>../src/ASF/sam0/utils</Value>
-      <Value>../src/ASF/sam0/utils/header_files</Value>
-      <Value>../src/ASF/sam0/utils/preprocessor</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Include</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-      <Value>../src/ASF/common/utils</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value>
-      <Value>../src/ASF/sam0/drivers/system</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value>
-      <Value>../src/ASF/sam0/drivers/system/pinmux</Value>
-      <Value>../src/ASF/sam0/drivers/system/power</Value>
-      <Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value>
-      <Value>../src/ASF/common2/boards/user_board</Value>
-      <Value>../src</Value>
-      <Value>../src/config</Value>
-      <Value>../src/ASF/sam0/drivers/port</Value>
-      <Value>../src/ASF/common2/services/delay</Value>
-      <Value>../src/ASF/common2/services/delay/sam0</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value>
-      <Value>../src/ASF/common/components/wifi/winc1500</Value>
-      <Value>../src/ASF/common/services/sleepmgr</Value>
-      <Value>../src/ASF/common/services/usb</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc/device</Value>
-      <Value>../src/ASF/common/services/usb/udc</Value>
-      <Value>../src/ASF/common/utils/stdio/stdio_usb</Value>
-      <Value>../src/ASF/common2/components/memory/sd_mmc</Value>
-      <Value>../src/ASF/sam0/drivers/bod</Value>
-      <Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/dma</Value>
-      <Value>../src/ASF/sam0/drivers/extint</Value>
-      <Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/rtc</Value>
-      <Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/sercom</Value>
-      <Value>../src/ASF/sam0/drivers/sercom/spi</Value>
-      <Value>../src/ASF/sam0/drivers/usb</Value>
-      <Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value>
-      <Value>../src/ASF/sam0/drivers/usb/stack_interface</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value>
-      <Value>../src/ASF/sam0/drivers/tcc</Value>
-    </ListValues>
-  </armgcc.assembler.general.IncludePaths>
-  <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samd21/gcc/samd21g18a_flash.ld -Wl,--Ttext=0x8000</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths><ListValues><Value>../src/ASF/common/boards</Value><Value>../src/ASF/sam0/utils</Value><Value>../src/ASF/sam0/utils/header_files</Value><Value>../src/ASF/sam0/utils/preprocessor</Value><Value>../src/ASF/thirdparty/CMSIS/Include</Value><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value><Value>../src/ASF/common/utils</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value><Value>../src/ASF/sam0/drivers/system</Value><Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value><Value>../src/ASF/sam0/drivers/system/clock</Value><Value>../src/ASF/sam0/drivers/system/interrupt</Value><Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value><Value>../src/ASF/sam0/drivers/system/pinmux</Value><Value>../src/ASF/sam0/drivers/system/power</Value><Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/system/reset</Value><Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value><Value>../src/ASF/common2/boards/user_board</Value><Value>../src</Value><Value>../src/config</Value><Value>../src/ASF/sam0/drivers/port</Value><Value>../src/ASF/common2/services/delay</Value><Value>../src/ASF/common2/services/delay/sam0</Value><Value>../src/ASF/common/services/storage/ctrl_access</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value><Value>../src/ASF/common/components/wifi/winc1500</Value><Value>../src/ASF/common/services/sleepmgr</Value><Value>../src/ASF/common/services/usb</Value><Value>../src/ASF/common/services/usb/class/cdc</Value><Value>../src/ASF/common/services/usb/class/cdc/device</Value><Value>../src/ASF/common/services/usb/udc</Value><Value>../src/ASF/common/utils/stdio/stdio_usb</Value><Value>../src/ASF/common2/components/memory/sd_mmc</Value><Value>../src/ASF/sam0/drivers/bod</Value><Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/dma</Value><Value>../src/ASF/sam0/drivers/extint</Value><Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/rtc</Value><Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/sercom</Value><Value>../src/ASF/sam0/drivers/sercom/spi</Value><Value>../src/ASF/sam0/drivers/usb</Value><Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value><Value>../src/ASF/sam0/drivers/usb/stack_interface</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value><Value>../src/ASF/sam0/drivers/tcc</Value></ListValues></armgcc.assembler.general.IncludePaths>
   <armgcc.preprocessingassembler.general.AssemblerFlags>-DARM_MATH_CM0PLUS=true -DBOARD=USER_BOARD -DSYSTICK_MODE -DUSB_DEVICE_LPM_SUPPORT -DUDD_ENABLE -DEXTINT_CALLBACK_MODE=true -DRTC_CALENDAR_ASYNC=true -DSPI_CALLBACK_MODE=true -DSD_MMC_ENABLE -DTCC_ASYNC=true</armgcc.preprocessingassembler.general.AssemblerFlags>
-  <armgcc.preprocessingassembler.general.IncludePaths>
-    <ListValues>
-      <Value>../src/ASF/common/boards</Value>
-      <Value>../src/ASF/sam0/utils</Value>
-      <Value>../src/ASF/sam0/utils/header_files</Value>
-      <Value>../src/ASF/sam0/utils/preprocessor</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Include</Value>
-      <Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value>
-      <Value>../src/ASF/common/utils</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value>
-      <Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value>
-      <Value>../src/ASF/sam0/drivers/system</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value>
-      <Value>../src/ASF/sam0/drivers/system/clock</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt</Value>
-      <Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value>
-      <Value>../src/ASF/sam0/drivers/system/pinmux</Value>
-      <Value>../src/ASF/sam0/drivers/system/power</Value>
-      <Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset</Value>
-      <Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value>
-      <Value>../src/ASF/common2/boards/user_board</Value>
-      <Value>../src</Value>
-      <Value>../src/config</Value>
-      <Value>../src/ASF/sam0/drivers/port</Value>
-      <Value>../src/ASF/common2/services/delay</Value>
-      <Value>../src/ASF/common2/services/delay/sam0</Value>
-      <Value>../src/ASF/common/services/storage/ctrl_access</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value>
-      <Value>../src/ASF/common/components/wifi/winc1500</Value>
-      <Value>../src/ASF/common/services/sleepmgr</Value>
-      <Value>../src/ASF/common/services/usb</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc</Value>
-      <Value>../src/ASF/common/services/usb/class/cdc/device</Value>
-      <Value>../src/ASF/common/services/usb/udc</Value>
-      <Value>../src/ASF/common/utils/stdio/stdio_usb</Value>
-      <Value>../src/ASF/common2/components/memory/sd_mmc</Value>
-      <Value>../src/ASF/sam0/drivers/bod</Value>
-      <Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/dma</Value>
-      <Value>../src/ASF/sam0/drivers/extint</Value>
-      <Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/rtc</Value>
-      <Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value>
-      <Value>../src/ASF/sam0/drivers/sercom</Value>
-      <Value>../src/ASF/sam0/drivers/sercom/spi</Value>
-      <Value>../src/ASF/sam0/drivers/usb</Value>
-      <Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value>
-      <Value>../src/ASF/sam0/drivers/usb/stack_interface</Value>
-      <Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value>
-      <Value>../src/ASF/sam0/drivers/tcc</Value>
-    </ListValues>
-  </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths><ListValues><Value>../src/ASF/common/boards</Value><Value>../src/ASF/sam0/utils</Value><Value>../src/ASF/sam0/utils/header_files</Value><Value>../src/ASF/sam0/utils/preprocessor</Value><Value>../src/ASF/thirdparty/CMSIS/Include</Value><Value>../src/ASF/thirdparty/CMSIS/Lib/GCC</Value><Value>../src/ASF/common/utils</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/include</Value><Value>../src/ASF/sam0/utils/cmsis/samd21/source</Value><Value>../src/ASF/sam0/drivers/system</Value><Value>../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1</Value><Value>../src/ASF/sam0/drivers/system/clock</Value><Value>../src/ASF/sam0/drivers/system/interrupt</Value><Value>../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21</Value><Value>../src/ASF/sam0/drivers/system/pinmux</Value><Value>../src/ASF/sam0/drivers/system/power</Value><Value>../src/ASF/sam0/drivers/system/power/power_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/system/reset</Value><Value>../src/ASF/sam0/drivers/system/reset/reset_sam_d_r_h</Value><Value>../src/ASF/common2/boards/user_board</Value><Value>../src</Value><Value>../src/config</Value><Value>../src/ASF/sam0/drivers/port</Value><Value>../src/ASF/common2/services/delay</Value><Value>../src/ASF/common2/services/delay/sam0</Value><Value>../src/ASF/common/services/storage/ctrl_access</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-r0.09/src</Value><Value>../src/ASF/common/components/wifi/winc1500</Value><Value>../src/ASF/common/services/sleepmgr</Value><Value>../src/ASF/common/services/usb</Value><Value>../src/ASF/common/services/usb/class/cdc</Value><Value>../src/ASF/common/services/usb/class/cdc/device</Value><Value>../src/ASF/common/services/usb/udc</Value><Value>../src/ASF/common/utils/stdio/stdio_usb</Value><Value>../src/ASF/common2/components/memory/sd_mmc</Value><Value>../src/ASF/sam0/drivers/bod</Value><Value>../src/ASF/sam0/drivers/bod/bod_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/dma</Value><Value>../src/ASF/sam0/drivers/extint</Value><Value>../src/ASF/sam0/drivers/extint/extint_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/rtc</Value><Value>../src/ASF/sam0/drivers/rtc/rtc_sam_d_r_h</Value><Value>../src/ASF/sam0/drivers/sercom</Value><Value>../src/ASF/sam0/drivers/sercom/spi</Value><Value>../src/ASF/sam0/drivers/usb</Value><Value>../src/ASF/sam0/drivers/usb/usb_sam_d_r</Value><Value>../src/ASF/sam0/drivers/usb/stack_interface</Value><Value>../src/ASF/thirdparty/fatfs/fatfs-port-r0.09/sam0</Value><Value>../src/ASF/sam0/drivers/tcc</Value></ListValues></armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.compiler.optimization.GeneratePositionIndependentCode>True</armgcc.compiler.optimization.GeneratePositionIndependentCode>
+  <armgcc.compiler.optimization.level>Optimize debugging experience (-Og)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.linker.optimization.GeneratePositionIndependentCode>True</armgcc.linker.optimization.GeneratePositionIndependentCode>
+  <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
   <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
 </ArmGcc>
     </ToolchainSettings>

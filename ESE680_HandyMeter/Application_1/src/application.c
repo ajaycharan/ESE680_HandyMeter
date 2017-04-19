@@ -6,6 +6,7 @@
 #include "socket/include/socket.h"
 #include "iot/http/http_client.h"
 
+
 #define STRING_EOL                      "\r\n"
 #define STRING_HEADER                   "-- HTTP file downloader example --"STRING_EOL \
 "-- "BOARD_NAME " --"STRING_EOL	\
@@ -97,49 +98,27 @@ static void configure_iot_sw_timer(void) {
 	sw_timer_enable(&swt_module_inst);
 }
 
-/**
- * \brief Initialize download state to not ready.
- */
 static void init_state(void)
 {
 	down_state = NOT_READY;
 }
 
-/**
- * \brief Clear state parameter at download processing state.
- * \param[in] mask Check download_state.
- */
 static void clear_state(download_state mask)
 {
 	down_state &= ~mask;
 }
 
-/**
- * \brief Add state parameter at download processing state.
- * \param[in] mask Check download_state.
- */
+
 static void add_state(download_state mask)
 {
 	down_state |= mask;
 }
-
-/**
- * \brief File download processing state check.
- * \param[in] mask Check download_state.
- * \return true if this state is set, false otherwise.
- */
 
 static inline bool is_state_set(download_state mask)
 {
 	return ((down_state & mask) != 0);
 }
 
-/**
- * \brief File existing check.
- * \param[in] fp The file pointer to check.
- * \param[in] file_path_name The file name to check.
- * \return true if this file name is exist, false otherwise.
- */
 static bool is_exist_file(FIL *fp, const char *file_path_name)
 {
 	if (fp == NULL || file_path_name == NULL) {
@@ -151,17 +130,10 @@ static bool is_exist_file(FIL *fp, const char *file_path_name)
 	return (ret == FR_OK);
 }
 
-/**
- * \brief Make to unique file name.
- * \param[in] fp The file pointer to check.
- * \param[out] file_path_name The file name change to uniquely and changed name is returned to this buffer.
- * \param[in] max_len Maximum file name length.
- * \return true if this file name is unique, false otherwise.
- */
 static bool rename_to_unique(FIL *fp, char *file_path_name, uint8_t max_len)
 {
 	#define NUMBRING_MAX (3)
-	#define ADDITION_SIZE (NUMBRING_MAX + 1) /* '-' character is added before the number. */
+	#define ADDITION_SIZE (NUMBRING_MAX + 1)
 	uint16_t i = 1, name_len = 0, ext_len = 0, count = 0;
 	char name[MAIN_MAX_FILE_NAME_LENGTH + 1] = {0};
 	char ext[MAIN_MAX_FILE_EXT_LENGTH + 1] = {0};
@@ -226,9 +198,7 @@ static bool rename_to_unique(FIL *fp, char *file_path_name, uint8_t max_len)
 	return false;
 }
 
-/**
- * \brief Start file download via HTTP connection.
- */
+
 static void start_download(void)
 {
 	if (!is_state_set(STORAGE_READY)) {
@@ -251,16 +221,10 @@ static void start_download(void)
 		return;
 	}
 
-	/* Send the HTTP request. */
 	printf("start_download: sending HTTP request...\r\n");
 	http_client_send_request(&http_client_module_inst, MAIN_HTTP_FILE_URL, HTTP_METHOD_GET, NULL, NULL);
 }
 
-/**
- * \brief Store received packet to file.
- * \param[in] data Packet data.
- * \param[in] length Packet data length.
- */
 static void store_file_packet(char *data, uint32_t length)
 {
 	FRESULT ret;
@@ -319,13 +283,7 @@ static void store_file_packet(char *data, uint32_t length)
 	}
 }
 
-/**
- * \brief Callback of the HTTP client.
- *
- * \param[in]  module_inst     Module instance of HTTP client module.
- * \param[in]  type            Type of event.
- * \param[in]  data            Data structure of the event. \refer http_client_data
- */
+
 static void http_client_callback(struct http_client_module *module_inst, int type, union http_client_data *data)
 {
 	switch (type) {
@@ -367,12 +325,7 @@ static void http_client_callback(struct http_client_module *module_inst, int typ
 	case HTTP_CLIENT_CALLBACK_DISCONNECTED:
 		printf("http_client_callback: disconnection reason:%d\r\n", data->disconnected.reason);
 
-		/* If disconnect reason is equal to -ECONNRESET(-104),
-		 * It means the server has closed the connection (timeout).
-		 * This is normal operation.
-		 */
 		if (data->disconnected.reason == -EAGAIN) {
-			/* Server has not responded. Retry immediately. */
 			if (is_state_set(DOWNLOADING)) {
 				f_close(&file_object);
 				clear_state(DOWNLOADING);
@@ -389,36 +342,13 @@ static void http_client_callback(struct http_client_module *module_inst, int typ
 	}
 }
 
-/**
- * \brief Callback to get the data from socket.
- *
- * \param[in] sock socket handler.
- * \param[in] u8Msg socket event type. Possible values are:
- *  - SOCKET_MSG_BIND
- *  - SOCKET_MSG_LISTEN
- *  - SOCKET_MSG_ACCEPT
- *  - SOCKET_MSG_CONNECT
- *  - SOCKET_MSG_RECV
- *  - SOCKET_MSG_SEND
- *  - SOCKET_MSG_SENDTO
- *  - SOCKET_MSG_RECVFROM
- * \param[in] pvMsg is a pointer to message structure. Existing types are:
- *  - tstrSocketBindMsg
- *  - tstrSocketListenMsg
- *  - tstrSocketAcceptMsg
- *  - tstrSocketConnectMsg
- *  - tstrSocketRecvMsg
- */
+
 static void socket_cb(SOCKET sock, uint8_t u8Msg, void *pvMsg)
 {
 	http_client_socket_event_handler(sock, u8Msg, pvMsg);
 }
 
-/**
- * \brief Callback for the gethostbyname function (DNS Resolution callback).
- * \param[in] pu8DomainName Domain name of the host.
- * \param[in] u32ServerIP Server IPv4 address encoded in NW byte order format. If it is Zero, then the DNS resolution failed.
- */
+
 static void resolve_cb(uint8_t *pu8DomainName, uint32_t u32ServerIP)
 {
 	printf("resolve_cb: %s IP address is %d.%d.%d.%d\r\n\r\n", pu8DomainName,
@@ -427,31 +357,7 @@ static void resolve_cb(uint8_t *pu8DomainName, uint32_t u32ServerIP)
 	http_client_socket_resolve_handler(pu8DomainName, u32ServerIP);
 }
 
-/**
- * \brief Callback to get the Wi-Fi status update.
- *
- * \param[in] u8MsgType type of Wi-Fi notification. Possible types are:
- *  - [M2M_WIFI_RESP_CURRENT_RSSI](@ref M2M_WIFI_RESP_CURRENT_RSSI)
- *  - [M2M_WIFI_RESP_CON_STATE_CHANGED](@ref M2M_WIFI_RESP_CON_STATE_CHANGED)
- *  - [M2M_WIFI_RESP_CONNTION_STATE](@ref M2M_WIFI_RESP_CONNTION_STATE)
- *  - [M2M_WIFI_RESP_SCAN_DONE](@ref M2M_WIFI_RESP_SCAN_DONE)
- *  - [M2M_WIFI_RESP_SCAN_RESULT](@ref M2M_WIFI_RESP_SCAN_RESULT)
- *  - [M2M_WIFI_REQ_WPS](@ref M2M_WIFI_REQ_WPS)
- *  - [M2M_WIFI_RESP_IP_CONFIGURED](@ref M2M_WIFI_RESP_IP_CONFIGURED)
- *  - [M2M_WIFI_RESP_IP_CONFLICT](@ref M2M_WIFI_RESP_IP_CONFLICT)
- *  - [M2M_WIFI_RESP_P2P](@ref M2M_WIFI_RESP_P2P)
- *  - [M2M_WIFI_RESP_AP](@ref M2M_WIFI_RESP_AP)
- *  - [M2M_WIFI_RESP_CLIENT_INFO](@ref M2M_WIFI_RESP_CLIENT_INFO)
- * \param[in] pvMsg A pointer to a buffer containing the notification parameters
- * (if any). It should be casted to the correct data type corresponding to the
- * notification type. Existing types are:
- *  - tstrM2mWifiStateChanged
- *  - tstrM2MWPSInfo
- *  - tstrM2MP2pResp
- *  - tstrM2MAPResp
- *  - tstrM2mScanDone
- *  - tstrM2mWifiscanResult
- */
+
 static void wifi_cb(uint8_t u8MsgType, void *pvMsg)
 {
 	switch (u8MsgType) {
@@ -495,9 +401,7 @@ static void wifi_cb(uint8_t u8MsgType, void *pvMsg)
 	}
 }
 
-/**
- * \brief Configure HTTP client module.
- */
+
 static void configure_http_client(void)
 {
 	struct http_client_config httpc_conf;
@@ -512,7 +416,7 @@ static void configure_http_client(void)
 	if (ret < 0) {
 		printf("configure_http_client: HTTP client initialization failed! (res %d)\r\n", ret);
 		while (1) {
-		} /* Loop forever. */
+		}
 	}
 
 	http_client_register_callback(&http_client_module_inst, http_client_callback);
@@ -523,7 +427,6 @@ static void init_storage(void)
 	FRESULT res;
 	Ctrl_status status;
 
-	/* Initialize SD/MMC stack. */
 	sd_mmc_init();
 	while (1) {
 		do {
@@ -559,16 +462,42 @@ int main(void)
 	sleepmgr_init();
 	stdio_usb_init();
 	stdio_usb_enable();
+	system_interrupt_enable_global();
+	delay_ms(500);
+	printf("\n\n\n---Started OTAFU file downloader application---\n");
+
 	init_state();
 	configure_iot_sw_timer();
 	configure_http_client();
 	init_storage();
 	nm_bsp_init();
 
+	/*
+	printf("\n\n\n---New app loaded: SimpleBlinky. ---\n");
+	struct port_config cfg;
+	cfg.direction = PORT_PIN_DIR_OUTPUT;
+	cfg.input_pull = PORT_PIN_PULL_NONE;
+	cfg.powersave = 0;
+	port_pin_set_config(LED_OUT_PIN, &cfg);
+	bool state = 0;
+	while(1) {
+		state = !state;
+		port_pin_set_output_level(LED_OUT_PIN, state);
+		bool but1 = !port_pin_get_input_level(BUT1_IRQ_IN_PIN);
+		bool but2 = !port_pin_get_input_level(BUT2_IRQ_IN_PIN);
+		printf("SimpleBlinky: LED: %5s   BUTTON1: %7s   BUTTON2: %7s\n",state?"GREEN":"RED", but1?"PRESSED":"---", but2?"PRESSED":"---");
+		delay_ms(100);
+	}*/
+	
 	tstrWifiInitParam param;
 	int8_t ret;
-		
-	/* Initialize Wi-Fi driver with data and status callbacks. */
+	
+	printf("...Paused. Press button to continue...\n");
+	while(1) {
+		bool b1 = !port_pin_get_input_level(BUT1_IRQ_IN_PIN);
+		bool b2 = !port_pin_get_input_level(BUT2_IRQ_IN_PIN);
+		if (b1 || b2) break;
+	}
 	param.pfAppWifiCb = wifi_cb;
 	ret = m2m_wifi_init(&param);
 	if (M2M_SUCCESS != ret) {
@@ -576,27 +505,20 @@ int main(void)
 		while (1) {
 		}
 	}
-
-	/* Initialize socket module. */
+	
 	socketInit();
-	/* Register socket callback function. */
 	registerSocketCallback(socket_cb, resolve_cb);
 
-	/* Connect to router. */
 	printf("main: connecting to WiFi AP %s...\r\n", (char *)MAIN_WLAN_SSID);
-	m2m_wifi_connect((char *)MAIN_WLAN_SSID, sizeof(MAIN_WLAN_SSID), MAIN_WLAN_AUTH, (char *)MAIN_WLAN_PSK, M2M_WIFI_CH_ALL);
-
+	ret = m2m_wifi_connect((char *)MAIN_WLAN_SSID, sizeof(MAIN_WLAN_SSID), MAIN_WLAN_AUTH, (char *)MAIN_WLAN_PSK, M2M_WIFI_CH_ALL);
+		
 	while (!(is_state_set(COMPLETED) || is_state_set(CANCELED))) {
-		/* Handle pending events from network controller. */
 		m2m_wifi_handle_events(NULL);
-		/* Checks the timer timeout. */
 		sw_timer_task(&swt_module_inst);
 	}
-	printf("main: please unplug the SD/MMC card.\r\n");
-	printf("main: done.\r\n");
-
-	while (1) {
-		} /* Loop forever. */
-
-		return 0;
+	printf("Downloader complete.  Performing bootloader reset.\n");
+	delay_ms(100);
+	system_reset();
+	while(1);
+	return 0;
 }

@@ -129,7 +129,9 @@ src/application.d src/application.o: ../src/application.c ../src/asf.h \
  ../src/ASF/thirdparty/fatfs/fatfs-r0.09/src/integer.h \
  ../src/ASF/common/boards/board.h \
  ../src/ASF/common/services/storage/ctrl_access/ctrl_access.h \
- ../src/config/conf_access.h ../src/ASF/sam0/drivers/port/port.h \
+ ../src/config/conf_access.h \
+ ../src/ASF/common2/components/memory/sd_mmc/sd_mmc_mem.h \
+ ../src/ASF/sam0/drivers/port/port.h \
  ../src/ASF/sam0/drivers/rtc/rtc_calendar.h ../src/config/conf_clocks.h \
  ../src/ASF/sam0/drivers/system/interrupt/system_interrupt.h \
  ../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samd21/system_interrupt_features.h \
@@ -156,7 +158,9 @@ src/application.d src/application.o: ../src/application.c ../src/asf.h \
  ../src/config/conf_sleepmgr.h \
  ../src/ASF/common/services/sleepmgr/sleepmgr.h \
  ../src/ASF/common/services/sleepmgr/samd/sleepmgr.h \
- ../src/ASF/sam0/drivers/usb/usb.h \
+ ../src/ASF/sam0/drivers/tcc/tcc.h \
+ ../src/ASF/sam0/drivers/tcc/tcc_callback.h \
+ ../src/ASF/sam0/drivers/tcc/tcc.h ../src/ASF/sam0/drivers/usb/usb.h \
  ../src/ASF/common/services/usb/class/cdc/usb_protocol_cdc.h \
  ../src/ASF/common/services/usb/class/cdc/device/udi_cdc.h \
  ../src/config/conf_usb.h \
@@ -170,7 +174,24 @@ src/application.d src/application.o: ../src/application.c ../src/asf.h \
  ../src/ASF/common/services/usb/udc/udi.h \
  ../src/ASF/common/utils/stdio/stdio_usb/stdio_usb.h \
  ../src/ASF/common/services/usb/udc/udc.h \
- ../src/ASF/common/services/usb/udc/udd.h ../src/application.h
+ ../src/ASF/common/services/usb/udc/udd.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\errno.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\sys\errno.h \
+ ../src/application.h ../src/asf.h \
+ ../src/ASF/common/components/wifi/winc1500/driver/include/m2m_wifi.h \
+ ../src/ASF/common/components/wifi/winc1500/common/include/nm_common.h \
+ ../src/ASF/common/components/wifi/winc1500/bsp/include/nm_bsp.h \
+ ../src/ASF/common/components/wifi/winc1500/common/include/nm_debug.h \
+ ../src/ASF/common/components/wifi/winc1500/bsp/include/nm_bsp_internal.h \
+ ../src/ASF/common/components/wifi/winc1500/bsp/include/nm_bsp_samd21.h \
+ ../src/config/conf_winc.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\math.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\machine\fastmath.h \
+ ../src/ASF/common/components/wifi/winc1500/driver/include/m2m_types.h \
+ ../src/ASF/common/components/wifi/winc1500/driver/source/nmdrv.h \
+ ../src/ASF/common/components/wifi/winc1500/socket/include/socket.h \
+ ../src/iot/http/http_client.h ../src/iot/sw_timer.h \
+ ../src/iot/conf_sw_timer.h ../src/iot/http/http_entity.h
 
 ../src/asf.h:
 
@@ -444,6 +465,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../src/config/conf_access.h:
 
+../src/ASF/common2/components/memory/sd_mmc/sd_mmc_mem.h:
+
 ../src/ASF/sam0/drivers/port/port.h:
 
 ../src/ASF/sam0/drivers/rtc/rtc_calendar.h:
@@ -502,6 +525,12 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../src/ASF/common/services/sleepmgr/samd/sleepmgr.h:
 
+../src/ASF/sam0/drivers/tcc/tcc.h:
+
+../src/ASF/sam0/drivers/tcc/tcc_callback.h:
+
+../src/ASF/sam0/drivers/tcc/tcc.h:
+
 ../src/ASF/sam0/drivers/usb/usb.h:
 
 ../src/ASF/common/services/usb/class/cdc/usb_protocol_cdc.h:
@@ -532,4 +561,42 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../src/ASF/common/services/usb/udc/udd.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\errno.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\sys\errno.h:
+
 ../src/application.h:
+
+../src/asf.h:
+
+../src/ASF/common/components/wifi/winc1500/driver/include/m2m_wifi.h:
+
+../src/ASF/common/components/wifi/winc1500/common/include/nm_common.h:
+
+../src/ASF/common/components/wifi/winc1500/bsp/include/nm_bsp.h:
+
+../src/ASF/common/components/wifi/winc1500/common/include/nm_debug.h:
+
+../src/ASF/common/components/wifi/winc1500/bsp/include/nm_bsp_internal.h:
+
+../src/ASF/common/components/wifi/winc1500/bsp/include/nm_bsp_samd21.h:
+
+../src/config/conf_winc.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\math.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-none-eabi\include\machine\fastmath.h:
+
+../src/ASF/common/components/wifi/winc1500/driver/include/m2m_types.h:
+
+../src/ASF/common/components/wifi/winc1500/driver/source/nmdrv.h:
+
+../src/ASF/common/components/wifi/winc1500/socket/include/socket.h:
+
+../src/iot/http/http_client.h:
+
+../src/iot/sw_timer.h:
+
+../src/iot/conf_sw_timer.h:
+
+../src/iot/http/http_entity.h:
