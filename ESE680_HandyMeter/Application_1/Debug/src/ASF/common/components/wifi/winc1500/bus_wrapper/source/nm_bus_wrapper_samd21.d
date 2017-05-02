@@ -129,6 +129,10 @@ src/ASF/common/components/wifi/winc1500/bus_wrapper/source/nm_bus_wrapper_samd21
  ../src/ASF/sam0/drivers/system/clock/clock.h \
  ../src/ASF/sam0/drivers/system/clock/gclk.h \
  ../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1/clock_feature.h \
+ ../src/ASF/sam0/drivers/events/events.h \
+ ../src/ASF/sam0/drivers/events/events_common.h \
+ ../src/ASF/sam0/drivers/events/events_hooks.h \
+ ../src/ASF/sam0/drivers/events/events.h \
  ../src/ASF/sam0/drivers/extint/extint.h \
  ../src/ASF/sam0/drivers/system/pinmux/pinmux.h \
  ../src/ASF/sam0/drivers/extint/extint_callback.h \
@@ -170,7 +174,9 @@ src/ASF/common/components/wifi/winc1500/bus_wrapper/source/nm_bus_wrapper_samd21
  ../src/config/conf_sleepmgr.h \
  ../src/ASF/common/services/sleepmgr/sleepmgr.h \
  ../src/ASF/common/services/sleepmgr/samd/sleepmgr.h \
- ../src/ASF/sam0/drivers/tcc/tcc.h \
+ ../src/ASF/sam0/drivers/tc/tc.h \
+ ../src/ASF/sam0/drivers/tc/tc_interrupt.h \
+ ../src/ASF/sam0/drivers/tc/tc.h ../src/ASF/sam0/drivers/tcc/tcc.h \
  ../src/ASF/sam0/drivers/tcc/tcc_callback.h \
  ../src/ASF/sam0/drivers/tcc/tcc.h ../src/ASF/sam0/drivers/usb/usb.h \
  ../src/ASF/common/services/usb/class/cdc/usb_protocol_cdc.h \
@@ -452,6 +458,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 
 ../src/ASF/sam0/drivers/system/clock/clock_samd21_r21_da_ha1/clock_feature.h:
 
+../src/ASF/sam0/drivers/events/events.h:
+
+../src/ASF/sam0/drivers/events/events_common.h:
+
+../src/ASF/sam0/drivers/events/events_hooks.h:
+
+../src/ASF/sam0/drivers/events/events.h:
+
 ../src/ASF/sam0/drivers/extint/extint.h:
 
 ../src/ASF/sam0/drivers/system/pinmux/pinmux.h:
@@ -537,6 +551,12 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/ASF/common/services/sleepmgr/sleepmgr.h:
 
 ../src/ASF/common/services/sleepmgr/samd/sleepmgr.h:
+
+../src/ASF/sam0/drivers/tc/tc.h:
+
+../src/ASF/sam0/drivers/tc/tc_interrupt.h:
+
+../src/ASF/sam0/drivers/tc/tc.h:
 
 ../src/ASF/sam0/drivers/tcc/tcc.h:
 

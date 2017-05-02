@@ -2,11 +2,23 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\accessory.c
+
+src\adc.c
+
 src\ASF\common2\components\memory\sd_mmc\sd_mmc_mem.c
+
+src\ASF\sam0\drivers\events\events_hooks.c
+
+src\ASF\sam0\drivers\events\events_sam_d_r_h\events.c
 
 src\ASF\sam0\drivers\tcc\tcc.c
 
 src\ASF\sam0\drivers\tcc\tcc_callback.c
+
+src\ASF\sam0\drivers\tc\tc_interrupt.c
+
+src\ASF\sam0\drivers\tc\tc_sam_d_r_h\tc.c
 
 src\iot\http\http_client.c
 

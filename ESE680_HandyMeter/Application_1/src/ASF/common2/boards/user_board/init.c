@@ -79,10 +79,10 @@ void system_board_init(void)
 	CFG(SW1B_GP_OUT_PIN); CFG(SW2B_GP_OUT_PIN); CFG(SW3B_GP_OUT_PIN); CFG(SW4B_GP_OUT_PIN);
 	
 	// Accessory power enable, drive low
-	config.direction	= PORT_PIN_DIR_INPUT;
+	config.direction	= PORT_PIN_DIR_OUTPUT;
 	config.input_pull	= PORT_PIN_PULL_DOWN;
-	config.powersave	= 1;
-	CFG(ACCYEN_GP_OUT_PIN);
+	config.powersave	= 0;
+	CFG(ACCYEN_GP_OUT_PIN); LO(ACCYEN_GP_OUT_PIN);
 
 	// ATWINC, input pull-down communication pins
 	config.direction	= PORT_PIN_DIR_INPUT;

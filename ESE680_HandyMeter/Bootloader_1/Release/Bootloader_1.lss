@@ -9909,7 +9909,7 @@ void sd_mmc_spi_select_device(uint8_t slot, uint32_t clock, uint8_t bus_width,
     3314:	e7ec      	b.n	32f0 <sd_mmc_spi_select_device+0x14>
     3316:	46c0      	nop			; (mov r8, r8)
     3318:	200002b9 	.word	0x200002b9
-    331c:	003d0900 	.word	0x003d0900
+    331c:	00b71b00 	.word	0x00b71b00
     3320:	20000278 	.word	0x20000278
     3324:	00002861 	.word	0x00002861
     3328:	200002b6 	.word	0x200002b6

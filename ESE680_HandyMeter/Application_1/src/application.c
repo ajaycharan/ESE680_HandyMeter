@@ -1,10 +1,16 @@
-#include <asf.h>
-#include <errno.h>
+#include "errno.h"
+#include "stdarg.h"
 #include "application.h"
+#include "string.h"
+#include "accessory.h"
 #include "asf.h"
 #include "driver/include/m2m_wifi.h"
+#include "driver/include/m2m_periph.h"
 #include "socket/include/socket.h"
 #include "iot/http/http_client.h"
+
+void debug_print(const char* fmt, ...);
+void fatal_error(int numBlinks, const char* fmt, ...);
 
 
 #define STRING_EOL                      "\r\n"
@@ -452,6 +458,76 @@ static void init_storage(void)
 	}
 }
 
+COMPILER_ALIGNED(16) DmacDescriptor tx_spi_desc SECTION_DMAC_DESCRIPTOR;
+COMPILER_ALIGNED(16) DmacDescriptor rx_spi_desc SECTION_DMAC_DESCRIPTOR;
+
+struct dma_resource tx_spi_dma;
+struct dma_resource rx_spi_dma;
+
+struct tc_module clock_tc;
+struct spi_module adc_spi;
+struct events_resource events;
+volatile bool transfer_is_done = 0;
+
+static void transfer_done(struct dma_resource* const resource )
+{
+	transfer_is_done = true;
+
+	// Raise the CS pin and release it back to hardware SPI
+	port_pin_set_output_level(ADC_SPI_CS_PIN, 1);
+	struct system_pinmux_config mcfg;
+	system_pinmux_get_config_defaults(&mcfg);
+	mcfg.direction = SYSTEM_PINMUX_PIN_DIR_OUTPUT;
+	mcfg.input_pull = SYSTEM_PINMUX_PIN_PULL_NONE;
+	mcfg.mux_position = MUX_PB22D_SERCOM5_PAD2;
+	system_pinmux_pin_set_config(ADC_SPI_CS_PIN, &mcfg);
+}
+static void transfer_start(struct tc_module* const resource )
+{
+	// Take over the CS pin and hold it low
+	struct system_pinmux_config mcfg;
+	system_pinmux_get_config_defaults(&mcfg);
+	mcfg.direction = SYSTEM_PINMUX_PIN_DIR_OUTPUT;
+	mcfg.input_pull = SYSTEM_PINMUX_PIN_PULL_NONE;
+	mcfg.mux_position = MUX_PB22A_EIC_EXTINT6;
+	port_pin_set_output_level(ADC_SPI_CS_PIN, 0);
+	system_pinmux_pin_set_config(ADC_SPI_CS_PIN, &mcfg);
+}
+static void configure_dma_resources()
+{
+	struct dma_resource_config config;
+	dma_get_config_defaults(&config);
+	config.peripheral_trigger = SERCOM5_DMAC_ID_TX;
+	config.trigger_action = DMA_TRIGGER_ACTION_BEAT;
+	config.priority = DMA_PRIORITY_LEVEL_3;
+	config.event_config.input_action = DMA_EVENT_INPUT_CBLOCK;
+	dma_allocate(&tx_spi_dma, &config);
+	config.priority = DMA_PRIORITY_LEVEL_3;
+	config.peripheral_trigger = SERCOM5_DMAC_ID_RX;
+	config.event_config.input_action = DMA_EVENT_INPUT_NOACT;
+	dma_allocate(&rx_spi_dma, &config);
+}
+uint8_t tx_buffer[9];
+uint8_t rx_buffer[9];
+static void setup_transfer_descriptor()
+{
+	struct dma_descriptor_config descriptor_config;
+	dma_descriptor_get_config_defaults(&descriptor_config);
+	descriptor_config.beat_size = DMA_BEAT_SIZE_BYTE;
+	descriptor_config.block_transfer_count = 9;
+	descriptor_config.source_address = (uint32_t)tx_buffer + sizeof(tx_buffer);
+	descriptor_config.destination_address = (uint32_t)(&SERCOM5->SPI.DATA.reg);
+	descriptor_config.dst_increment_enable = 0;
+	descriptor_config.src_increment_enable = 1;
+	dma_descriptor_create(&tx_spi_desc, &descriptor_config);
+
+	descriptor_config.source_address = (uint32_t)(&SERCOM5->SPI.DATA.reg);
+	descriptor_config.destination_address = (uint32_t)rx_buffer + sizeof(rx_buffer);
+	descriptor_config.src_increment_enable = 0;
+	descriptor_config.dst_increment_enable = 1;
+	dma_descriptor_create(&rx_spi_desc, &descriptor_config);
+}
+
 int main(void)
 {
 	system_init();
@@ -462,63 +538,190 @@ int main(void)
 	sleepmgr_init();
 	stdio_usb_init();
 	stdio_usb_enable();
+	system_interrupt_disable_global();
+	for (int i=0; i<PERIPH_COUNT_IRQn-1; i++) {
+		system_interrupt_set_priority(i, SYSTEM_INTERRUPT_PRIORITY_LEVEL_3);
+	}
+	system_interrupt_set_priority(SysTick_IRQn, SYSTEM_INTERRUPT_PRIORITY_LEVEL_3);
+	system_interrupt_set_priority(PendSV_IRQn, SYSTEM_INTERRUPT_PRIORITY_LEVEL_3);
+	system_interrupt_set_priority(SVCall_IRQn, SYSTEM_INTERRUPT_PRIORITY_LEVEL_3);
+	system_interrupt_set_priority(HardFault_IRQn, SYSTEM_INTERRUPT_PRIORITY_LEVEL_3);
+	system_interrupt_set_priority(NonMaskableInt_IRQn, SYSTEM_INTERRUPT_PRIORITY_LEVEL_3);
 	system_interrupt_enable_global();
 	delay_ms(500);
-	printf("\n\n\n---Started OTAFU file downloader application---\n");
-
-	init_state();
-	configure_iot_sw_timer();
-	configure_http_client();
-	init_storage();
-	nm_bsp_init();
-
-	/*
-	printf("\n\n\n---New app loaded: SimpleBlinky. ---\n");
-	struct port_config cfg;
-	cfg.direction = PORT_PIN_DIR_OUTPUT;
-	cfg.input_pull = PORT_PIN_PULL_NONE;
-	cfg.powersave = 0;
-	port_pin_set_config(LED_OUT_PIN, &cfg);
-	bool state = 0;
-	while(1) {
-		state = !state;
-		port_pin_set_output_level(LED_OUT_PIN, state);
-		bool but1 = !port_pin_get_input_level(BUT1_IRQ_IN_PIN);
-		bool but2 = !port_pin_get_input_level(BUT2_IRQ_IN_PIN);
-		printf("SimpleBlinky: LED: %5s   BUTTON1: %7s   BUTTON2: %7s\n",state?"GREEN":"RED", but1?"PRESSED":"---", but2?"PRESSED":"---");
-		delay_ms(100);
-	}*/
 	
-	tstrWifiInitParam param;
-	int8_t ret;
+	// QOS change
+	uint32_t *cpu = (uint32_t*)(0x41007110);
+	*cpu &= ~3;
+	*cpu |= 2;
+
+	USB->DEVICE.QOSCTRL.bit.CQOS = 0;
+	USB->DEVICE.QOSCTRL.bit.DQOS = 0;
+
+	DMAC->QOSCTRL.bit.DQOS = 3;
+	DMAC->QOSCTRL.bit.FQOS = 3;
+	DMAC->QOSCTRL.bit.WRBQOS = 3;
+
+	accy_powerUp();
 	
-	printf("...Paused. Press button to continue...\n");
-	while(1) {
-		bool b1 = !port_pin_get_input_level(BUT1_IRQ_IN_PIN);
-		bool b2 = !port_pin_get_input_level(BUT2_IRQ_IN_PIN);
-		if (b1 || b2) break;
+	// CS pin setup
+	struct port_config pcfg;
+	port_get_config_defaults(&pcfg);
+	pcfg.direction = PORT_PIN_DIR_OUTPUT;
+	pcfg.input_pull = PORT_PIN_PULL_NONE;
+	port_pin_set_config(ADC_SPI_CS_PIN, &pcfg);
+	port_pin_set_output_level(ADC_SPI_CS_PIN, 1);
+
+	// SPI port setup
+	struct spi_config adc_cfg;
+	spi_get_config_defaults(&adc_cfg);
+	adc_cfg.transfer_mode = SPI_TRANSFER_MODE_1;
+	adc_cfg.master_slave_select_enable = 1;
+	adc_cfg.mode_specific.master.baudrate = 4096000;
+	adc_cfg.mux_setting = SPI_SIGNAL_MUX_SETTING_I;
+	adc_cfg.pinmux_pad0 = PINMUX_PB02D_SERCOM5_PAD0;	// MISO
+	adc_cfg.pinmux_pad1 = PINMUX_PB03D_SERCOM5_PAD1;	// SCK
+	adc_cfg.pinmux_pad2 = PINMUX_PB22D_SERCOM5_PAD2;	// nCS
+	adc_cfg.pinmux_pad3 = PINMUX_PB23D_SERCOM5_PAD3;	// MOSI
+	enum status_code code = spi_init(&adc_spi, SERCOM5, &adc_cfg);
+	if (code != STATUS_OK) fatal_error(0,"ADC spi init failed\n");
+	spi_enable(&adc_spi);
+
+	// Timer setup to count pulses
+	struct tc_config tcfg;
+	tc_get_config_defaults(&tcfg);
+	tcfg.clock_source = GCLK_GENERATOR_4;
+	tcfg.counter_size = TC_COUNTER_SIZE_16BIT;
+	tcfg.wave_generation = TC_WAVE_GENERATION_MATCH_FREQ;
+	tcfg.counter_16_bit.value = 0;
+	tcfg.counter_16_bit.compare_capture_channel[0] = 8192;
+	tcfg.counter_16_bit.compare_capture_channel[1] = 8192-23;
+	tc_init(&clock_tc, TC3, &tcfg);
+	tc_register_callback(&clock_tc, transfer_start, TC_CALLBACK_CC_CHANNEL1);
+	tc_enable_callback(&clock_tc, TC_CALLBACK_CC_CHANNEL1);
+	system_interrupt_set_priority(SYSTEM_INTERRUPT_MODULE_TC3, SYSTEM_INTERRUPT_PRIORITY_LEVEL_0);
+
+	// Make event on compare
+	struct tc_events tev;
+	tev.event_action = TC_EVENT_ACTION_OFF;
+	tev.on_event_perform_action = 0;
+	tev.invert_event_input = 0;
+	tev.generate_event_on_overflow = 0;
+	tev.generate_event_on_compare_channel[0] = 1;
+	tev.generate_event_on_compare_channel[1] = 0;
+	tc_enable_events(&clock_tc, &tev);
+	
+	// Pipe event to DMA
+	struct events_config ecfg;
+	events_get_config_defaults(&ecfg);
+	ecfg.generator = EVSYS_ID_GEN_TC3_MCX_0;
+	ecfg.path = EVENTS_PATH_RESYNCHRONIZED;
+	events_allocate(&events, &ecfg);
+	events_attach_user(&events, EVSYS_ID_USER_DMAC_CH_0);
+
+	for (int i=0; i<9;i++) {
+		if (i % 2 == 0)
+			tx_buffer[i] = 0x3c;
+		else
+			tx_buffer[i] = 0xc3;
+
+		rx_buffer[i] = 0x55;
 	}
-	param.pfAppWifiCb = wifi_cb;
-	ret = m2m_wifi_init(&param);
-	if (M2M_SUCCESS != ret) {
-		printf("main: m2m_wifi_init call error! (res %d)\r\n", ret);
-		while (1) {
+
+	// Enable GCLK output
+	struct system_pinmux_config mcfg;
+	system_pinmux_get_config_defaults(&mcfg);
+	mcfg.direction = SYSTEM_PINMUX_PIN_DIR_OUTPUT;
+	mcfg.input_pull = SYSTEM_PINMUX_PIN_PULL_NONE;
+	mcfg.mux_position = MUX_PB10H_GCLK_IO4;
+	system_pinmux_pin_set_config(ADC_GCLK_MCK_PIN, &mcfg);
+	system_pinmux_pin_set_output_strength(ADC_GCLK_MCK_PIN, SYSTEM_PINMUX_PIN_STRENGTH_HIGH);
+
+	tc_enable(&clock_tc);
+	int cnt = 0;
+
+	// Configure tx DMA to transfer 9 bytes
+	configure_dma_resources();
+	setup_transfer_descriptor();
+	dma_add_descriptor(&tx_spi_dma, &tx_spi_desc);
+	dma_add_descriptor(&rx_spi_dma, &rx_spi_desc);
+	dma_register_callback(&tx_spi_dma, transfer_done, DMA_CALLBACK_TRANSFER_DONE);
+	dma_enable_callback(&tx_spi_dma, DMA_CALLBACK_TRANSFER_DONE);
+	dma_enable_callback(&rx_spi_dma, DMA_CALLBACK_TRANSFER_DONE);
+	system_interrupt_set_priority(SYSTEM_INTERRUPT_MODULE_DMA, SYSTEM_INTERRUPT_PRIORITY_LEVEL_0);
+	dma_start_transfer_job(&tx_spi_dma);
+	dma_start_transfer_job(&rx_spi_dma);
+
+	while(1) {
+
+
+		transfer_is_done = 0;
+
+		while (!transfer_is_done) {
 		}
+
+//		dma_free(&rx_spi_dma);
+//		dma_free(&tx_spi_dma);
+		cnt++;
+		dma_start_transfer_job(&tx_spi_dma);
+		dma_start_transfer_job(&rx_spi_dma);
+
+		if (cnt % 100 == 0)
+			printf("C: %d\n", cnt);
 	}
 	
-	socketInit();
-	registerSocketCallback(socket_cb, resolve_cb);
-
-	printf("main: connecting to WiFi AP %s...\r\n", (char *)MAIN_WLAN_SSID);
-	ret = m2m_wifi_connect((char *)MAIN_WLAN_SSID, sizeof(MAIN_WLAN_SSID), MAIN_WLAN_AUTH, (char *)MAIN_WLAN_PSK, M2M_WIFI_CH_ALL);
-		
-	while (!(is_state_set(COMPLETED) || is_state_set(CANCELED))) {
-		m2m_wifi_handle_events(NULL);
-		sw_timer_task(&swt_module_inst);
-	}
-	printf("Downloader complete.  Performing bootloader reset.\n");
-	delay_ms(100);
-	system_reset();
 	while(1);
 	return 0;
+}
+
+
+// Toggle LED for blink codes
+static void led_blink(int num_blinks, int blink_period_ms, bool green) {
+	bool state = 0;
+	struct port_config cfg;
+	port_get_config_defaults(&cfg);
+	num_blinks = num_blinks * 2;
+	while(num_blinks > 0) {
+		state = !state;
+		if (state) {
+			cfg.direction = PORT_PIN_DIR_OUTPUT;
+			cfg.input_pull = PORT_PIN_PULL_NONE;
+			port_pin_set_output_level(LED_OUT_PIN, !green);
+			port_pin_set_config(LED_OUT_PIN, &cfg);
+			} else {
+			cfg.direction = PORT_PIN_DIR_INPUT;
+			cfg.input_pull = PORT_PIN_PULL_NONE;
+			port_pin_set_output_level(LED_OUT_PIN, 0);
+			port_pin_set_config(LED_OUT_PIN, &cfg);
+		}
+		delay_ms(blink_period_ms/2);
+		num_blinks--;
+	}
+	cfg.direction = PORT_PIN_DIR_INPUT;
+	cfg.input_pull = PORT_PIN_PULL_NONE;
+	port_pin_set_output_level(LED_OUT_PIN, 0);
+	port_pin_set_config(LED_OUT_PIN, &cfg);
+}
+
+// Fatal errors: blink light, print, sleep
+void fatal_error(int numBlinks, const char* fmt, ...) {
+	va_list args;
+	va_start(args, fmt);
+	debug_print(fmt, args);
+	va_end(args);
+	led_blink(numBlinks, 200, 0);
+	delay_ms(500);
+
+	// Sleep, wakes on button press
+	sleepmgr_sleep(SLEEPMGR_STANDBY);
+	system_reset();
+}
+
+void debug_print(const char* fmt, ...) {
+	#ifdef ENABLE_USB_DEBUG
+	va_list args;
+	va_start(args, fmt);
+	vprintf(fmt, args);
+	va_end(args);
+	#endif
 }

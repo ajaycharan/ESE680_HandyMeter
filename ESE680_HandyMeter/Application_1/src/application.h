@@ -4,7 +4,7 @@
 #ifdef __cplusplus
 extern "C" {
 	#endif
-
+	#define ENABLE_USB_DEBUG
 	/** Wi-Fi AP Settings. */
 	#define MAIN_WLAN_SSID                       "Pspot"			/**< Destination SSID */
 	#define MAIN_WLAN_AUTH                       M2M_WIFI_SEC_WPA_PSK	/**< Security manner */

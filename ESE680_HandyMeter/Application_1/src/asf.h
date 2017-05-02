@@ -69,6 +69,12 @@
 // From module: Delay routines
 #include <delay.h>
 
+// From module: EVSYS - Event System Common
+#include <events.h>
+
+// From module: EVSYS - Event System with interupt hooks support
+#include <events_hooks.h>
+
 // From module: EXTINT - External Interrupt (Callback APIs)
 #include <extint.h>
 #include <extint_callback.h>
@@ -141,6 +147,10 @@
 
 // From module: Supported ports of FatFS
 #include <diskio.h>
+
+// From module: TC - Timer Counter (Callback APIs)
+#include <tc.h>
+#include <tc_interrupt.h>
 
 // From module: TCC - Timer Counter for Control Applications (Callback APIs)
 #include <tcc.h>
